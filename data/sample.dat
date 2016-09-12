@@ -1,0 +1,10 @@
++1 |BT| (NP (NP (NN 0)) (PP (IN 0) (S (VP (VP (VBG 0) (NP (NP (DT 0)))))))) |ET|
+-1 |BT| (PP (IN 0) (NP (NP (NN 0) (NN 0) (NN 0) (NN 0)) (VP (VBG 0) (NP (JJ 0))))) |ET|
+-1 |BT| (NP (NP (JJ 0) (NN 0)) (PP (IN 0) (NP (NP (JJ 0) (NN 0)) (PP (IN 0) (NP (PRP$ 0)))))) |ET|
+-1 |BT| (VP (VBP 0) (NP (NN 0) (NN 0))) |ET|
++1 |BT| (NX (NN 0) (JJ 0) (- 0)) |ET|
+-1 |BT| (S (NP (DT 0) (NN 0)) (VP (MD 0) (VP (VB 0) (PP (IN 0) (NP (DT 0) (NAC (NP (NN 0)))))))) |ET|
+-1 |BT| (VP (VB 0) (NP (NN 0) (NNS 0)) (PP (NN 0) (NP (JJ 0) (NN 0) (NN 0)))) |ET|
+-1 |BT| (S (NP (NNS 0)) (VP (VBP 0) (VP (VBN 0) (NP (NP (JJ 0) (DT 0) (NNS 0)))))) |ET|
++1 |BT| (NP (JJ 0) (NN 0) (, 0) (NNS 0) (CC 0) (NN 0) (NN 0)) |ET|
+-1 |BT| (NP (NP (DT 0) (NNS 0)) (SBAR (S (NP (PRP 0)) (VP (VBP 0))))) |ET|
