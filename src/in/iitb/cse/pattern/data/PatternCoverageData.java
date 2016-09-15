@@ -30,11 +30,11 @@ public class PatternCoverageData {
 		String line = null;
 		while (null != (line = reader.readLine())) {
 			Pattern pat = new Pattern();
-			patterns.addPattern(pat);
-			pat.setId(parsePatternLine(line));
+			pat.setId(parsePatternLine(line) - 1);
 			String[] tokensSet = parseTokensLine(reader.readLine());
 			pat.setUniqueTokens(tokensSet);
 			pat.setCorpusCoverage(tokensSet.length);
+			patterns.addPattern(pat);
 			corpusTokens.addTokens(tokensSet);
 			addPatternCover(pat.getId(), tokensSet);
 		}

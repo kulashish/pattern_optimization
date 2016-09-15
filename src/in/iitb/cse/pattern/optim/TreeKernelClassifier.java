@@ -3,11 +3,12 @@ package in.iitb.cse.pattern.optim;
 import java.util.List;
 
 import in.iitb.cse.pattern.data.LabeledPool;
+import in.iitb.cse.pattern.data.SparseMatrix;
+import in.iitb.cse.pattern.exception.InvalidValueException;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.label.StringLabel;
 import it.uniroma2.sag.kelp.data.representation.tree.TreeRepresentation;
 import it.uniroma2.sag.kelp.kernel.DirectKernel;
-import it.uniroma2.sag.kelp.kernel.Kernel;
 import it.uniroma2.sag.kelp.kernel.tree.SubSetTreeKernel;
 import it.uniroma2.sag.kelp.kernel.tree.SubTreeKernel;
 import it.uniroma2.sag.kelp.learningalgorithm.classification.libsvm.BinaryCSvmClassification;
@@ -21,8 +22,14 @@ public class TreeKernelClassifier {
 	private BinaryCSvmClassification svmSolver;
 	private BinaryKernelMachineClassifier classifier;
 
+	private SparseMatrix kernelMatrix;
+
 	public TreeKernelClassifier() {
 		this(TreeKernelType.SUBSET);
+	}
+
+	public void setKernelMatrix(SparseMatrix kernelMatrix) {
+		this.kernelMatrix = kernelMatrix;
 	}
 
 	public TreeKernelClassifier(TreeKernelType type) {
@@ -60,10 +67,21 @@ public class TreeKernelClassifier {
 		return treeKernel;
 	}
 
+	public BinaryCSvmClassification getSvmSolver() {
+		return svmSolver;
+	}
+
 	public float computeKernelValue(Example a, Example b) {
-		return treeKernel.kernelComputation(
-				(TreeRepresentation) a.getRepresentation(PatternConstants.TREEKERNEL_REPRESENTATION),
-				(TreeRepresentation) b.getRepresentation(PatternConstants.TREEKERNEL_REPRESENTATION));
+		float value = 0.0f;
+		try {
+			value = kernelMatrix.get((int) a.getId(), (int) b.getId());
+		} catch (InvalidValueException e) {
+			value = treeKernel.kernelComputation(
+					(TreeRepresentation) a.getRepresentation(PatternConstants.TREEKERNEL_REPRESENTATION),
+					(TreeRepresentation) b.getRepresentation(PatternConstants.TREEKERNEL_REPRESENTATION));
+			kernelMatrix.set((int) a.getId(), (int) b.getId(), value);
+		}
+		return value;
 	}
 
 }

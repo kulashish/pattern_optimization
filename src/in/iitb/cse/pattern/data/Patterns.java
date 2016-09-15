@@ -1,13 +1,18 @@
 package in.iitb.cse.pattern.data;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Patterns {
 
-	private List<Pattern> patterns;
+	private Map<Integer, Pattern> patterns;
+
+	public Patterns() {
+		patterns = new HashMap<Integer, Pattern>();
+	}
 
 	public void addPattern(Pattern pat) {
-		patterns.add(pat.getId(), pat);
+		patterns.put(pat.getId(), pat);
 	}
 
 	public Pattern getPattern(int id) {

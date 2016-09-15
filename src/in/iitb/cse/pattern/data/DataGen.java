@@ -1,6 +1,5 @@
 package in.iitb.cse.pattern.data;
 
-import in.iitb.cse.pattern.optim.TreeKernelClassifier;
 import it.uniroma2.sag.kelp.data.dataset.SimpleDataset;
 
 public class DataGen {
@@ -28,6 +27,10 @@ public class DataGen {
 
 	public UnlabeledPool getUnlabeledPool() {
 		return unlabeledPool;
+	}
+
+	public SimpleDataset getDataset() {
+		return dataset;
 	}
 
 	public static void main(String[] args) {
