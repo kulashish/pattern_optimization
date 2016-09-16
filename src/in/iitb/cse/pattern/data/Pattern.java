@@ -39,7 +39,8 @@ public class Pattern {
 	}
 
 	public void decreaseCoverage(int i) {
-		corpusCoverage -= i;
+		if (i <= corpusCoverage)
+			corpusCoverage -= i;
 	}
 
 }

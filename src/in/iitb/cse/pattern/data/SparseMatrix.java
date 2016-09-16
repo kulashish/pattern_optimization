@@ -12,7 +12,7 @@ public class SparseMatrix {
 
 	public SparseMatrix(int dim) {
 		dimension = dim;
-		vector = new OpenMapRealVector(dim / 2 * (dim - 1));
+		vector = new OpenMapRealVector(dim % 2 == 0 ? dim / 2 * (dim - 1) : (dim - 1) / 2 * dim);
 		System.out.println("Created sparse vector with dimension - " + vector.getDimension());
 	}
 
@@ -33,11 +33,13 @@ public class SparseMatrix {
 			r = c;
 			c = rCopy;
 		}
-		return r * (dimension - 1) - (r - 1) * r / 2 + c - r - 1;
+		int temp = r % 2 == 0 ? r / 2 * (r - 1) : (r - 1) / 2 * r;
+		return r * (dimension - 1) - temp + c - r - 1;
 	}
 
 	public static void main(String[] args) {
-		SparseMatrix mat = new SparseMatrix(5);
+		SparseMatrix mat = new SparseMatrix(51563);
+		System.out.println("dimension: " + mat.dimension);
 		mat.set(1, 2, 2.3f);
 		try {
 			System.out.println(mat.get(1, 2));

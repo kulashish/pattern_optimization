@@ -1,5 +1,10 @@
 package in.iitb.cse.pattern.optim;
 
+import java.util.List;
+
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+
 import in.iitb.cse.pattern.data.DataGen;
 import in.iitb.cse.pattern.data.PatternCoverageData;
 import it.uniroma2.sag.kelp.data.example.Example;
@@ -19,20 +24,25 @@ public class ALSampler {
 	}
 
 	public Example sampleNext() {
-		Example optimExample = null;
-		float margin = 0.0f;
-		int coverage = 0;
-		float optimScore = 0.0f;
-		float score = 0.0f;
-		for (Example e : dataPools.getUnlabeledPool().getData().getExamples()) {
-			margin = marginComputer.computeMargin(e);
-			coverage = coverageData.getPatterns().getPattern((int) e.getId()).getCorpusCoverage();
-			score = margin + tradeoff * coverage;
-			if (score > optimScore) {
-				optimScore = score;
-				optimExample = e;
-			}
+		List<Example> unlabledExamples = dataPools.getUnlabeledPool().getData().getExamples();
+		RealVector marginVector = new ArrayRealVector(unlabledExamples.size());
+		RealVector coverageVector = new ArrayRealVector(unlabledExamples.size());
+		RealVector scoreVector = new ArrayRealVector(unlabledExamples.size());
+
+		for (int eIndex = 0; eIndex < unlabledExamples.size(); eIndex++) {
+			Example e = unlabledExamples.get(eIndex);
+			marginVector.setEntry(eIndex, marginComputer.computeMargin(e));
+			coverageVector.setEntry(eIndex, coverageData.getPatterns().getPattern((int) e.getId()).getCorpusCoverage());
 		}
-		return optimExample;
+		marginVector = scale(marginVector);
+		coverageVector = scale(coverageVector);
+		scoreVector = marginVector.add(coverageVector.mapMultiply(tradeoff));
+		return unlabledExamples.get(scoreVector.getMaxIndex());
+	}
+
+	private RealVector scale(RealVector v) {
+		double min = v.getMinValue();
+		double scaleFactor = v.getMaxValue() - v.getMinValue();
+		return v.mapSubtract(min).mapDivide(scaleFactor);
 	}
 }

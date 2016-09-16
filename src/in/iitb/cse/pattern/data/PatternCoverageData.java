@@ -25,6 +25,14 @@ public class PatternCoverageData {
 		return patterns;
 	}
 
+	public CorpusTokens getCorpusTokens() {
+		return corpusTokens;
+	}
+
+	public int getCorpusSize() {
+		return getCorpusTokens().size();
+	}
+
 	public void loadFromFile(String path) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(path));
 		String line = null;

@@ -22,11 +22,24 @@ public class LabeledPool extends DataPool {
 		updateTokenCoverage(e);
 	}
 
+	public int getTokenCoverage() {
+		return tokenCoverage;
+	}
+
 	private void updateTokenCoverage(Example e) {
-		int patId = (int) e.getId();
-		Pattern pattern = patternCoverageData.getPatterns().getPattern(patId);
-		tokenCoverage += pattern.getCorpusCoverage();
-		patternCoverageData.updatePatternCover(patId);
+		if (e.isExampleOf(positiveLabel)) {
+			int patId = (int) e.getId();
+			Pattern pattern = patternCoverageData.getPatterns().getPattern(patId);
+			tokenCoverage += pattern.getCorpusCoverage();
+			patternCoverageData.updatePatternCover(patId);
+		}
+	}
+
+	public String summary() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Number of instances : ").append(getNumInstances());
+		builder.append(", Number of positive instances: ").append(getNumPosInstances());
+		return builder.toString();
 	}
 
 }
