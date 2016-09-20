@@ -41,8 +41,11 @@ public class OptimMain {
 			MarginComputer marginComputer = new SimpleMarginComputer(classifier);
 			ALSampler sampler = new ALSampler(dataGen, marginComputer, patCoverage, 1.0f);
 
-			for (int i = 0; i < 50; i++) {
-				System.out.println("Iteration count: " + i);
+			int finalSubsetCardinality = 50;
+			int iterCount = 0;
+
+			while (dataGen.getLabeledPool().getNumPosInstances() < finalSubsetCardinality) {
+				System.out.println("Iteration count: " + iterCount++);
 				System.out.println("Current coverage: " + dataGen.getLabeledPool().getTokenCoverage());
 				System.out.println("Training classifier...");
 				long start = System.currentTimeMillis();
@@ -56,6 +59,8 @@ public class OptimMain {
 				dataGen.getLabeledPool().addExample(optimE);
 				dataGen.getUnlabeledPool().removeExample(optimE);
 			}
+			// final patterns subset available in
+			// dataGen.getLabeledPool().getPosData();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,7 +1,12 @@
 package in.iitb.cse.pattern.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import in.iitb.cse.pattern.optim.PatternConstants;
+import it.uniroma2.sag.kelp.data.dataset.Dataset;
 import it.uniroma2.sag.kelp.data.dataset.SimpleDataset;
+import it.uniroma2.sag.kelp.data.label.Label;
 import it.uniroma2.sag.kelp.data.label.StringLabel;
 
 public class DataPool {
@@ -17,6 +22,12 @@ public class DataPool {
 	protected DataPool(SimpleDataset data, String pLabel) {
 		this.data = data;
 		positiveLabel = new StringLabel(pLabel);
+	}
+
+	public Dataset getPosData() throws InstantiationException, IllegalAccessException {
+		List<Label> posLabel = new ArrayList<Label>();
+		posLabel.add(positiveLabel);
+		return SimpleDataset.extractExamplesOfClasses(data, posLabel);
 	}
 
 	public SimpleDataset getData() {
